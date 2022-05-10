@@ -23,6 +23,46 @@
             </div>
           </div>
         </div>
+        <div class="mb-3">
+          <label for="secondPositiveThing" class="form-label">Second Thing </label> <label style="color:red;"> * </label>
+          <textarea
+            name="secondPositiveThing"
+            class="form-control"
+            id="secondPositiveThing"
+            rows="3"
+            formControlName="secondPositiveThing"
+            required
+          ></textarea>
+          <div *ngIf="(secondPositiveThing?.invalid && (secondPositiveThing?.dirty || secondPositiveThing?.touched)) || formOfPositivesThings.submitted">
+            <div
+              class="alert alert-danger"
+              role="alert"
+              *ngIf="secondPositiveThing?.errors?.['required']"
+            >
+              Fill this field
+            </div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="thirdPositiveThing" class="form-label">Third Thing </label> <label style="color:red;"> * </label>
+          <textarea
+            name="thirdPositiveThing"
+            class="form-control"
+            id="thirdPositiveThing"
+            rows="3"
+            formControlName="thirdPositiveThing"
+            required
+          ></textarea>
+          <div *ngIf="(thirdPositiveThing?.invalid && (thirdPositiveThing?.dirty || thirdPositiveThing?.touched)) || formOfPositivesThings.submitted">
+            <div
+              class="alert alert-danger"
+              role="alert"
+              *ngIf="thirdPositiveThing?.errors?.['required']"
+            >
+              Fill this field
+            </div>
+          </div>
+        </div>
         <input type="submit" value="Save" />
       </form>
     </div>
