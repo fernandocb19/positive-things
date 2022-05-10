@@ -2,6 +2,29 @@
     <div class="col">
       <h4>Today is: {{todayDate | date:"MM/dd/yyyy"}}</h4>
       <h3>3 Positives Things of the Day</h3>
+      <form name="form" #formOfPositivesThings="ngForm" [formGroup]="positiveThingsForm" novalidate>
+        <div class="mb-3">
+          <label for="firstPositiveThing" class="form-label">First Thing </label> <label style="color:red;"> * </label>
+          <textarea
+            name="firstPositiveThing"
+            class="form-control"
+            id="firstPositiveThing"
+            rows="3"
+            formControlName="firstPositiveThing"
+            required
+          ></textarea>
+          <div *ngIf="(firstPositiveThing?.invalid && (firstPositiveThing?.dirty || firstPositiveThing?.touched)) || formOfPositivesThings.submitted">
+            <div
+              class="alert alert-danger"
+              role="alert"
+              *ngIf="firstPositiveThing?.errors?.['required']"
+            >
+              Fill this field
+            </div>
+          </div>
+        </div>
+        <input type="submit" value="Save" />
+      </form>
     </div>
   </div>
   
