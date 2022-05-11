@@ -2,7 +2,6 @@
   <div class="col">
     <h4>Today is: {{ todayDate | date: "MM/dd/yyyy" }}</h4>
     <h3>3 Positives Things of the Day</h3>
-    {{positiveJournalDay | json}}
     <form
       name="form"
       #formOfPositivesThings="ngForm"
@@ -97,6 +96,7 @@
         </div>
       </div>
       <input type="submit" value="Save" />
+      &nbsp;
       <div
         *ngIf="showSpinner"
         class="spinner-border spinner-border-sm"
