@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormGroup,
-  FormControl,
-  Validators
-} from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { PositiveJournalDay } from '../models/positiveJournalDay.model';
+import { PositiveJournalDayService } from '../services/positive-journal-day.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-positive-things-form',
@@ -13,10 +12,29 @@ import {
 export class PositiveThingsFormComponent implements OnInit {
   todayDate = new Date();
   positiveThingsForm!: FormGroup;
+  positiveJournalDay!: PositiveJournalDay;
+  saveError = false;
+  isDateSaved = false;
+  showSpinner = false;
 
-  constructor() {}
+  constructor(private positiveJournalDayService: PositiveJournalDayService) {
+    this.initPositiveJournalDay();
+    this.setPositiveThingsFormGroup();
+  }
 
-  ngOnInit(): void {
+  ngOnInit(): void {  
+  }
+
+  initPositiveJournalDay() {
+    this.positiveJournalDay = {
+      date: moment(new Date()).format('YYYY-MM-DD'),
+      firstPositiveThing: '',
+      secondPositiveThing: '',
+      thirdPositiveThing: '',
+    };
+  }
+
+  setPositiveThingsFormGroup() {
     this.positiveThingsForm = new FormGroup({
       firstPositiveThing: new FormControl('', [Validators.required]),
       secondPositiveThing: new FormControl('', [Validators.required]),
@@ -34,5 +52,27 @@ export class PositiveThingsFormComponent implements OnInit {
 
   get thirdPositiveThing() {
     return this.positiveThingsForm.get('thirdPositiveThing');
+  }
+
+  onSubmit() {
+    if (this.positiveThingsForm.valid) {
+      this.showSpinner = true;
+      this.saveError = false;
+      this.positiveJournalDayService.addDay(this.positiveJournalDay).subscribe({
+        next: () => {
+          this.isDateSaved = true;
+          this.showSpinner = false;
+          this.positiveThingsForm.disable();
+        },
+        error: () => {
+          this.saveError = true;
+        },
+      });
+    }
+  }
+
+  onUpdatePositiveThings() {
+    this.isDateSaved = false;
+    this.positiveThingsForm.enable();
   }
 }

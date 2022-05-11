@@ -1,70 +1,120 @@
 <div class="row align-items-start mx-auto">
-    <div class="col">
-      <h4>Today is: {{todayDate | date:"MM/dd/yyyy"}}</h4>
-      <h3>3 Positives Things of the Day</h3>
-      <form name="form" #formOfPositivesThings="ngForm" [formGroup]="positiveThingsForm" novalidate>
-        <div class="mb-3">
-          <label for="firstPositiveThing" class="form-label">First Thing </label> <label style="color:red;"> * </label>
-          <textarea
-            name="firstPositiveThing"
-            class="form-control"
-            id="firstPositiveThing"
-            rows="3"
-            formControlName="firstPositiveThing"
-            required
-          ></textarea>
-          <div *ngIf="(firstPositiveThing?.invalid && (firstPositiveThing?.dirty || firstPositiveThing?.touched)) || formOfPositivesThings.submitted">
-            <div
-              class="alert alert-danger"
-              role="alert"
-              *ngIf="firstPositiveThing?.errors?.['required']"
-            >
-              Fill this field
-            </div>
+  <div class="col">
+    <h4>Today is: {{ todayDate | date: "MM/dd/yyyy" }}</h4>
+    <h3>3 Positives Things of the Day</h3>
+    {{positiveJournalDay | json}}
+    <form
+      name="form"
+      #formOfPositivesThings="ngForm"
+      [formGroup]="positiveThingsForm"
+      (ngSubmit)="onSubmit()"
+      novalidate
+    >
+      <div class="mb-3">
+        <label for="firstPositiveThing" class="form-label">First Thing </label>
+        <label style="color: red"> * </label>
+        <textarea
+          [(ngModel)]="positiveJournalDay.firstPositiveThing"
+          name="firstPositiveThing"
+          class="form-control"
+          id="firstPositiveThing"
+          rows="3"
+          formControlName="firstPositiveThing"
+          required
+        ></textarea>
+        <div
+          *ngIf="
+            (firstPositiveThing?.invalid &&
+              (firstPositiveThing?.dirty || firstPositiveThing?.touched)) ||
+            formOfPositivesThings.submitted
+          "
+        >
+          <div
+            class="alert alert-danger"
+            role="alert"
+            *ngIf="firstPositiveThing?.errors?.['required']"
+          >
+            Fill this field
           </div>
         </div>
-        <div class="mb-3">
-          <label for="secondPositiveThing" class="form-label">Second Thing </label> <label style="color:red;"> * </label>
-          <textarea
-            name="secondPositiveThing"
-            class="form-control"
-            id="secondPositiveThing"
-            rows="3"
-            formControlName="secondPositiveThing"
-            required
-          ></textarea>
-          <div *ngIf="(secondPositiveThing?.invalid && (secondPositiveThing?.dirty || secondPositiveThing?.touched)) || formOfPositivesThings.submitted">
-            <div
-              class="alert alert-danger"
-              role="alert"
-              *ngIf="secondPositiveThing?.errors?.['required']"
-            >
-              Fill this field
-            </div>
+      </div>
+      <div class="mb-3">
+        <label for="secondPositiveThing" class="form-label"
+          >Second Thing
+        </label>
+        <label style="color: red"> * </label>
+        <textarea
+          [(ngModel)]="positiveJournalDay.secondPositiveThing"
+          name="secondPositiveThing"
+          class="form-control"
+          id="secondPositiveThing"
+          rows="3"
+          formControlName="secondPositiveThing"
+          required
+        ></textarea>
+        <div
+          *ngIf="
+            (secondPositiveThing?.invalid &&
+              (secondPositiveThing?.dirty || secondPositiveThing?.touched)) ||
+            formOfPositivesThings.submitted
+          "
+        >
+          <div
+            class="alert alert-danger"
+            role="alert"
+            *ngIf="secondPositiveThing?.errors?.['required']"
+          >
+            Fill this field
           </div>
         </div>
-        <div class="mb-3">
-          <label for="thirdPositiveThing" class="form-label">Third Thing </label> <label style="color:red;"> * </label>
-          <textarea
-            name="thirdPositiveThing"
-            class="form-control"
-            id="thirdPositiveThing"
-            rows="3"
-            formControlName="thirdPositiveThing"
-            required
-          ></textarea>
-          <div *ngIf="(thirdPositiveThing?.invalid && (thirdPositiveThing?.dirty || thirdPositiveThing?.touched)) || formOfPositivesThings.submitted">
-            <div
-              class="alert alert-danger"
-              role="alert"
-              *ngIf="thirdPositiveThing?.errors?.['required']"
-            >
-              Fill this field
-            </div>
+      </div>
+      <div class="mb-3">
+        <label for="thirdPositiveThing" class="form-label">Third Thing </label>
+        <label style="color: red"> * </label>
+        <textarea
+          [(ngModel)]="positiveJournalDay.thirdPositiveThing"
+          name="thirdPositiveThing"
+          class="form-control"
+          id="thirdPositiveThing"
+          rows="3"
+          formControlName="thirdPositiveThing"
+          required
+        ></textarea>
+        <div
+          *ngIf="
+            (thirdPositiveThing?.invalid &&
+              (thirdPositiveThing?.dirty || thirdPositiveThing?.touched)) ||
+            formOfPositivesThings.submitted
+          "
+        >
+          <div
+            class="alert alert-danger"
+            role="alert"
+            *ngIf="thirdPositiveThing?.errors?.['required']"
+          >
+            Fill this field
           </div>
         </div>
-        <input type="submit" value="Save" />
-      </form>
+      </div>
+      <input type="submit" value="Save" />
+      <div
+        *ngIf="showSpinner"
+        class="spinner-border spinner-border-sm"
+        role="status"
+      ></div>
+      <input
+        *ngIf="positiveThingsForm.disabled"
+        type="button"
+        (click)="onUpdatePositiveThings()"
+        value="Update"
+      />      
+    </form>
+    <br />
+    <div *ngIf="isDateSaved" class="text-center alert alert-success" role="alert">
+      Your day have been saved
+    </div>
+    <div *ngIf="saveError" class="text-center alert alert-danger" role="alert">
+      There was an error saving the information. Try again later.
     </div>
   </div>
-  
+</div>
