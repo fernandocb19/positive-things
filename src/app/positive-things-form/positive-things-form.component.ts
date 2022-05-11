@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { PositiveJournalDay } from '../models/positiveJournalDay.model';
+import { PositiveJournalDay } from '../models/positive-journal-day.model';
 import { PositiveJournalDayService } from '../services/positive-journal-day.service';
 import * as moment from 'moment';
 
@@ -22,8 +22,18 @@ export class PositiveThingsFormComponent implements OnInit {
     this.setPositiveThingsFormGroup();
   }
 
-  ngOnInit(): void {  
+  ngOnInit(): void {
+    this.getPositiveThingsOfToday();
   }
+
+  getPositiveThingsOfToday = () => {
+    this.positiveJournalDayService
+      .getDay(moment(new Date()).format('YYYY-MM-DD'))
+      .subscribe((positiveJournalDay) => {
+        this.positiveJournalDay = positiveJournalDay;
+        this.positiveThingsForm.disable();
+      });
+  };
 
   initPositiveJournalDay() {
     this.positiveJournalDay = {
