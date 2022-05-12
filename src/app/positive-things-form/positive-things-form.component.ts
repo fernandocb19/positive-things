@@ -66,6 +66,7 @@ export class PositiveThingsFormComponent implements OnInit {
 
   onSubmit() {
     if (this.positiveThingsForm.valid) {
+      this.setPositiveJournalDayFromFormValues();
       this.showSpinner = true;
       this.saveError = false;
       this.positiveJournalDayService.addDay(this.positiveJournalDay).subscribe({
@@ -79,6 +80,12 @@ export class PositiveThingsFormComponent implements OnInit {
         },
       });
     }
+  }
+
+  setPositiveJournalDayFromFormValues() {
+    this.positiveJournalDay.firstPositiveThing = this.firstPositiveThing?.value;
+    this.positiveJournalDay.secondPositiveThing = this.secondPositiveThing?.value;
+    this.positiveJournalDay.thirdPositiveThing = this.thirdPositiveThing?.value;
   }
 
   onUpdatePositiveThings() {
